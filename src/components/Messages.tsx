@@ -6,7 +6,7 @@ interface MessageProps {
 
 export const MessageContainer = styled.div`
   width: 100%;
-  height: 75vh;
+  height: 80vh;
   overflow: auto;
   display: flex;
   flex-direction: column;

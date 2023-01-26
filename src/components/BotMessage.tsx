@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-
 import getUser from "../services/GithubAPI";
 import { messageFormatter } from "../services/MessageFormatter";
 import { usernameValidator } from "../services/UsernameValidation";
@@ -8,6 +7,27 @@ import { usernameValidator } from "../services/UsernameValidation";
 interface BotMessageProps {
   username: string;
 }
+
+const Dots = styled.span`
+  &::after {
+    display: inline-block;
+    animation: ellipsis 1s infinite;
+    content: ".";
+    width: 1em;
+    text-align: left;
+  }
+  @keyframes ellipsis {
+    0% {
+      content: ".";
+    }
+    33% {
+      content: "..";
+    }
+    66% {
+      content: "...";
+    }
+  }
+`;
 
 const BotMessageContainer = styled.div`
   float: left;
@@ -31,7 +51,6 @@ const BotAvatar = styled.img`
 `;
 
 export default function BotMessage({ username }: BotMessageProps) {
-  const [isLoading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [avatar, setAvatar] = useState();
   const scrollRef = useRef(document.createElement("div"));
@@ -48,9 +67,6 @@ export default function BotMessage({ username }: BotMessageProps) {
       setAvatar(info.avatar_url);
       setMessage(botMessage);
     }
-
-    setLoading(true);
-
     if (username === "") {
       // If no input return help
       setMessage("Hello 👋 send a github username to find out more about them");
@@ -75,15 +91,13 @@ export default function BotMessage({ username }: BotMessageProps) {
         });
       }
     }
-
-    setLoading(false);
   }, [username]);
 
   return (
     <>
       <BotMessageContainer>
-        {isLoading ? (
-          "..."
+        {message === "" ? (
+          <Dots />
         ) : (
           <BotAvatarContainer>
             {avatar && <BotAvatar width={30} src={avatar} />}
