@@ -3,6 +3,7 @@ import styled from "styled-components";
 import getUser from "../services/GithubAPI";
 import { messageFormatter } from "../services/MessageFormatter";
 import { usernameValidator } from "../services/UsernameValidation";
+import { ipExtractor } from "../services/IPAddressExtractor";
 
 interface BotMessageProps {
   username: string;
@@ -74,8 +75,11 @@ export default function BotMessage({ username }: BotMessageProps) {
           if (err.response) {
             const errMessage = err.response.data.message.toLowerCase();
             if (errMessage.includes("rate limit exceeded")) {
+              const ip = ipExtractor(errMessage);
               setMessage(
-                "Sorry 😬 the rate limit for the API has been exceeded"
+                `Sorry 😬 the rate limit for the API has been exceeded ${
+                  ip ? `on ${ip}` : ""
+                }`
               );
             } else if (errMessage.includes("not found")) {
               setMessage(`Sorry 😬 ${username} does not exist`);
