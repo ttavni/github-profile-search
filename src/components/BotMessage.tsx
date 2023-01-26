@@ -56,6 +56,17 @@ export default function BotMessage({ username }: BotMessageProps) {
   const [avatar, setAvatar] = useState();
   const scrollRef = useRef(document.createElement("div"));
 
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({
+      block: "end",
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  });
+
   useEffect(() => {
     async function loadMessage() {
       const [info, repos] = await getUser(username);
@@ -78,7 +89,7 @@ export default function BotMessage({ username }: BotMessageProps) {
               const ip = ipExtractor(errMessage);
               setMessage(
                 `Sorry 😬 the rate limit for the API has been exceeded ${
-                  ip ? `on ${ip}` : ""
+                  ip ? `by the ${ip} IP address` : ""
                 }`
               );
             } else if (errMessage.includes("not found")) {
@@ -103,10 +114,7 @@ export default function BotMessage({ username }: BotMessageProps) {
               <BotAvatar
                 onLoad={() => {
                   // Wait for image to render before scroll
-                  scrollRef.current.scrollIntoView({
-                    block: "end",
-                    behavior: "smooth",
-                  });
+                  scrollToBottom();
                 }}
                 width={30}
                 src={avatar}
