@@ -55,11 +55,6 @@ export default function BotMessage({ username }: BotMessageProps) {
   const [avatar, setAvatar] = useState();
   const scrollRef = useRef(document.createElement("div"));
 
-  // scroll to bottom of bot message
-  useEffect(() => {
-    scrollRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
-  });
-
   useEffect(() => {
     async function loadMessage() {
       const [info, repos] = await getUser(username);
@@ -100,7 +95,19 @@ export default function BotMessage({ username }: BotMessageProps) {
           <Dots />
         ) : (
           <BotAvatarContainer>
-            {avatar && <BotAvatar width={30} src={avatar} />}
+            {avatar && (
+              <BotAvatar
+                onLoad={() => {
+                  // Wait for image to render before scroll
+                  scrollRef.current.scrollIntoView({
+                    block: "end",
+                    behavior: "smooth",
+                  });
+                }}
+                width={30}
+                src={avatar}
+              />
+            )}
             {message}
           </BotAvatarContainer>
         )}
