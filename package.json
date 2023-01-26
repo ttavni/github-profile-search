@@ -15,7 +15,6 @@
     "@types/styled-components": "5.1.26",
     "axios": "^1.2.4",
     "react": "^18.2.0",
-    "react-animated-ellipsis": "^1.0.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.6",
