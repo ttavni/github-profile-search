@@ -27,6 +27,6 @@ npm i && npm run start
 
 👨🏻‍💻 Typescript, React, Styled-Components, Material UI
 
-📈 Improvements: unit testing, text validation for inputs
+📈 Improvements: unit testing
 
 ![github bot](https://user-images.githubusercontent.com/33322296/214696181-ae76a6ba-fbfb-4a11-ae99-b6fa25f1e9e8.png)
